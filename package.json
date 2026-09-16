@@ -12,7 +12,9 @@
     "backend:lint": "npm --prefix backend run lint",
     "frontend:lint": "npm --prefix frontend run lint",
     "lint": "npm run backend:lint && npm run frontend:lint",
-    "build": "npm --prefix frontend run build"
+    "frontend:build": "npm --prefix frontend run build",
+    "build": "npm run frontend:build",
+    "start": "npm run build && npm run backend"
   },
   "devDependencies": {
     "concurrently": "^9.2.1"

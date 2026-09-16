@@ -43,36 +43,17 @@ jobs:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           SECRET: ${{ secrets.SECRET }}
 
+      - name: Build frontend
+        run: npm run build
+
       - name: Start backend
-        run: npm run backend > backend.log 2>&1 &
+        run: |
+          npm run backend > backend.log 2>&1 &
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           SECRET: ${{ secrets.SECRET }}
 
-      - name: Start frontend
-        run: npm run frontend -- --host 0.0.0.0 > frontend.log 2>&1 &
-
-      - name: Wait for servers
-        run: |
-          for i in {1..30}; do
-            if curl --silent --fail http://localhost:3001 > /dev/null; then
-              echo "Backend is ready"
-              break
-            fi
-            echo "Waiting for backend..."
-            sleep 2
-          done
-
-          for i in {1..30}; do
-            if curl --silent --fail http://localhost:5173 > /dev/null; then
-              echo "Frontend is ready"
-              break
-            fi
-            echo "Waiting for frontend..."
-            sleep 2
-          done
-
-      - name: Frontend tests
+      - name: Frontend E2E tests
         run: npm run frontend:test
 
       - name: Show server logs on failure
@@ -80,8 +61,3 @@ jobs:
         run: |
           echo "===== BACKEND LOG ====="
           cat backend.log || true
-          echo "===== FRONTEND LOG ====="
-          cat frontend.log || true
-
-      - name: Build
-        run: npm run build
