@@ -127,6 +127,7 @@ test.describe('Blog app', () => {
           'authorTwo',
           'https://www.blogTwo.com',
         )
+
         await createBlog(
           page,
           'blogThree',
@@ -135,23 +136,33 @@ test.describe('Blog app', () => {
         )
 
         await page.getByRole('link', { name: 'The Playwright Blog' }).click()
-        await page.getByRole('button', { name: /like/i }).click()
-        await page.getByRole('button', { name: /like/i }).click()
+
+        const likeButton = page.getByRole('button', { name: /like/i })
+
+        await likeButton.click()
+        await expect(page.getByText(/Likes: 1/i)).toBeVisible()
+
+        await likeButton.click()
         await expect(page.getByText(/Likes: 2/i)).toBeVisible()
+
         await page.getByRole('link', { name: 'Blogs' }).click()
 
         await page.getByRole('link', { name: 'blogTwo' }).click()
+
         await page.getByRole('button', { name: /like/i }).click()
         await expect(page.getByText(/Likes: 1/i)).toBeVisible()
+
         await page.getByRole('link', { name: 'Blogs' }).click()
 
         await page.getByRole('link', { name: 'blogThree' }).click()
+
         await expect(page.getByText(/Likes: 0/i)).toBeVisible()
+
         await page.getByRole('link', { name: 'Blogs' }).click()
 
         const blogs = page.getByRole('listitem')
-        await expect(blogs).toHaveCount(3)
 
+        await expect(blogs).toHaveCount(3)
         await expect(blogs.nth(0)).toContainText(/The Playwright Blog/i)
         await expect(blogs.nth(1)).toContainText(/blogTwo/i)
         await expect(blogs.nth(2)).toContainText(/blogThree/i)
