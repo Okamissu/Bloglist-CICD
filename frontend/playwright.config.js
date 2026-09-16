@@ -74,16 +74,20 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: [
-    {
-      command: 'npm --prefix ../backend run start:test',
-      url: 'http://localhost:3001',
-      reuseExistingServer: !process.env.CI,
-    },
-    {
-      command: 'npm run dev -- --host 0.0.0.0',
-      url: 'http://localhost:5173',
-      reuseExistingServer: !process.env.CI,
-    },
-  ],
+  // webServer: [
+  //   {
+  //     command: 'npm run start:test',
+  //     cwd: '../backend',
+  //     url: 'http://127.0.0.1:3001',
+  //     timeout: 120000,
+  //     reuseExistingServer: !process.env.CI,
+  //   },
+  //   {
+  //     command: 'npm run dev -- --host 127.0.0.1',
+  //     cwd: '.',
+  //     url: 'http://127.0.0.1:5173',
+  //     timeout: 120000,
+  //     reuseExistingServer: !process.env.CI,
+  //   },
+  // ],
 })

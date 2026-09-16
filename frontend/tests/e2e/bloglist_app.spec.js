@@ -32,9 +32,11 @@ test.describe('Blog app', () => {
     })
 
     test('Login succeeds with correct credentials', async ({ page }) => {
-      await loginWith(page, 'mluukkai', 'salainen')
+      await page.getByLabel('Username').fill('mluukkai')
+      await page.getByLabel('Password').fill('salainen')
+      await page.getByRole('button', { name: 'Log in' }).click()
 
-      await expect(page.getByText(/Matti Luukkainen logged in/i)).toBeVisible()
+      await expect(page.getByRole('link', { name: /log out/i })).toBeVisible()
     })
     test('Login fails with invalid credentials', async ({ page }) => {
       await loginWith(page, 'mluukkai', 'wrongwrong')
@@ -106,7 +108,7 @@ test.describe('Blog app', () => {
           },
         })
 
-        await page.getByRole('button', { name: /log out/i }).click()
+        await page.getByRole('link', { name: /log out/i }).click()
 
         await loginWith(page, 'okamilo', 'pingi125')
 
