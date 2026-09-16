@@ -44,23 +44,9 @@ jobs:
           SECRET: ${{ secrets.SECRET }}
           PORT: 3001
 
-      # - name: Build and start application
-      #   run: |
-      #     npm run start > app.log 2>&1 &
-      #   env:
-      #     TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-      #     SECRET: ${{ secrets.SECRET }}
-      #     PORT: 3001
-
       - name: Frontend tests
         run: npm run frontend:test
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           SECRET: ${{ secrets.SECRET }}
           PORT: 3001
-
-      - name: Show application logs on failure
-        if: failure()
-        run: |
-          echo "===== APPLICATION LOG ====="
-          cat app.log || true

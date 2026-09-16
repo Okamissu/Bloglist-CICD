@@ -29,6 +29,10 @@ if (process.env.NODE_ENV === 'test') {
   app.use('/api/testing', testingRouter)
 }
 
+app.get('/health', (req, res) => {
+  res.status(200).send('OK')
+})
+
 // Serve frontend
 app.use(express.static(path.join(__dirname, '../frontend/dist')))
 
