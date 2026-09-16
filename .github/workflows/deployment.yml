@@ -42,11 +42,11 @@ jobs:
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           SECRET: ${{ secrets.SECRET }}
+          PORT: 3001
 
       - name: Build and start application
         run: |
           npm run start > app.log 2>&1 &
-          sleep 5
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           SECRET: ${{ secrets.SECRET }}
