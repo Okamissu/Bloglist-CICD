@@ -2,8 +2,8 @@
   "name": "bloglist",
   "version": "1.0.0",
   "scripts": {
-    "backend": "npm --prefix backend run dev",
-    "frontend": "npm --prefix frontend run dev",
+    "backend": "npm --prefix backend run start:test",
+    "frontend": "npm --prefix frontend run start:test",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "backend:test": "npm --prefix backend test",
     "frontend:test": "npm --prefix frontend test",
