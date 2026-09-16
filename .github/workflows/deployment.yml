@@ -43,12 +43,10 @@ jobs:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           SECRET: ${{ secrets.SECRET }}
 
-      - name: Build frontend
-        run: npm run build
-
-      - name: Start backend
+      - name: Build and start application
         run: |
-          npm run backend > backend.log 2>&1 &
+          npm run start > app.log 2>&1 &
+          sleep 5
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           SECRET: ${{ secrets.SECRET }}
@@ -56,8 +54,8 @@ jobs:
       - name: Frontend E2E tests
         run: npm run frontend:test
 
-      - name: Show server logs on failure
+      - name: Show application logs on failure
         if: failure()
         run: |
-          echo "===== BACKEND LOG ====="
-          cat backend.log || true
+          echo "===== APPLICATION LOG ====="
+          cat app.log || true
