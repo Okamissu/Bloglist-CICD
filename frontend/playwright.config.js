@@ -32,4 +32,14 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'] },
     },
   ],
+  webServer: [
+    {
+      command: 'npm run start:test',
+      cwd: '../backend',
+      url: 'http://localhost:3001',
+      timeout: 120000,
+      stdout: 'pipe',
+      stderr: 'pipe',
+    },
+  ],
 })
