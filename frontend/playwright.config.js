@@ -71,22 +71,22 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  // webServer: [
-  //   {
-  //     command: 'npm run start:test',
-  //     cwd: '../backend',
-  //     url: 'http://localhost:3001',
-  //     timeout: 120000,
-  //     stdout: 'pipe',
-  //     stderr: 'pipe',
-  //   },
-  //   {
-  //     command: 'npm run dev',
-  //     cwd: '.',
-  //     url: 'http://localhost:5173',
-  //     timeout: 120000,
-  //     stdout: 'pipe',
-  //     stderr: 'pipe',
-  //   },
-  // ],
+  webServer: [
+    {
+      command: 'npm run start:test',
+      cwd: '../backend',
+      url: 'http://localhost:3001',
+      timeout: 120000,
+      stdout: 'pipe',
+      stderr: 'pipe',
+    },
+    //   {
+    //     command: 'npm run dev',
+    //     cwd: '.',
+    //     url: 'http://localhost:5173',
+    //     timeout: 120000,
+    //     stdout: 'pipe',
+    //     stderr: 'pipe',
+    //   },
+  ],
 })
