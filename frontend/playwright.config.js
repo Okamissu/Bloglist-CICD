@@ -35,7 +35,7 @@ export default defineConfig({
 
   webServer: {
     command: 'npm run start:test',
-    cwd: '../backend',
+    cwd: '..',
     url: 'http://localhost:3001/health',
     timeout: 120000,
     stdout: 'pipe',
