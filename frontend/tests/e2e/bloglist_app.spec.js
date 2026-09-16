@@ -15,7 +15,8 @@ test.describe('Blog app', () => {
 
   test.describe('Login site', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto('/login')
+      await page.goto('/')
+      await page.getByRole('link', { name: /login/i }).click()
     })
 
     test('Login form is shown', async ({ page }) => {
