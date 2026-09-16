@@ -52,8 +52,12 @@ jobs:
       #     SECRET: ${{ secrets.SECRET }}
       #     PORT: 3001
 
-      - name: Frontend E2E tests
+      - name: Frontend tests
         run: npm run frontend:test
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          SECRET: ${{ secrets.SECRET }}
+          PORT: 3001
 
       - name: Show application logs on failure
         if: failure()
