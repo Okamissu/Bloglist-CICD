@@ -1,4 +1,5 @@
 const express = require('express')
+const fs = require('fs')
 const mongoose = require('mongoose')
 const path = require('path')
 const config = require('./utils/config')
@@ -10,6 +11,10 @@ const loginRouter = require('./controllers/login')
 
 const app = express()
 const frontendDistPath = path.join(__dirname, '../frontend/dist')
+const frontendIndexPath = path.join(frontendDistPath, 'index.html')
+const frontendIndexHtml = fs.existsSync(frontendIndexPath)
+  ? fs.readFileSync(frontendIndexPath, 'utf8')
+  : null
 
 logger.info(`connecting to ${config.MONGODB_URI}`)
 
@@ -41,7 +46,11 @@ app.get('/health', (req, res) => {
 // Serve frontend
 app.use(express.static(frontendDistPath))
 app.get(/^\/(?!api).*/, (req, res) => {
-  res.sendFile(path.join(frontendDistPath, 'index.html'))
+  if (!frontendIndexHtml) {
+    return res.sendStatus(404)
+  }
+
+  return res.type('html').send(frontendIndexHtml)
 })
 
 app.use(middleware.unknownEndpoint)
