@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "backend": "npm --prefix backend run start",
+    "backend": "npm --prefix backend run start:test",
     "frontend": "npm --prefix frontend run dev",
-    "dev": "concurrently \"npm --prefix backend run dev\" \"npm run frontend\"",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "backend:test": "npm --prefix backend test",
     "frontend:test": "npm --prefix frontend test",
     "test": "npm run backend:test && npm run frontend:test",
@@ -15,7 +15,7 @@
     "frontend:build": "npm --prefix frontend run build",
     "build": "npm run frontend:build",
     "start": "npm run build && npm run backend",
-    "start:test": "npm run build && npm --prefix backend run start:test"
+    "start:test": "npm run build && npm run backend"
   },
   "devDependencies": {
     "concurrently": "^9.2.1"

@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     branches: [main]
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize]
 
 jobs:
   ci:
@@ -38,7 +38,6 @@ jobs:
         run: npm run lint
 
       - name: Backend tests
-        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         run: npm run backend:test
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
@@ -46,7 +45,6 @@ jobs:
           PORT: 3001
 
       - name: Frontend tests
-        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         run: npm run frontend:test
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}

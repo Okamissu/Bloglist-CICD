@@ -37,10 +37,6 @@ export default defineConfig({
     command: 'npm run start:test',
     cwd: '..',
     url: 'http://localhost:3001/health',
-    env: {
-      ...process.env,
-      PORT: process.env.PORT || '3001',
-    },
     timeout: 120000,
     stdout: 'pipe',
     stderr: 'pipe',

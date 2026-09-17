@@ -9,7 +9,6 @@ const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
 
 const app = express()
-const frontendDistPath = path.join(__dirname, '../frontend/dist')
 
 logger.info(`connecting to ${config.MONGODB_URI}`)
 
@@ -31,18 +30,11 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 app.get('/health', (req, res) => {
-  if (mongoose.connection.readyState !== 1) {
-    return res.status(503).send('DB not ready')
-  }
-
-  return res.status(200).send('OK')
+  res.status(200).send('OK')
 })
 
 // Serve frontend
-app.use(express.static(frontendDistPath))
-app.get(/^\/(?!api).*/, (req, res) => {
-  res.sendFile(path.join(frontendDistPath, 'index.html'))
-})
+app.use(express.static(path.join(__dirname, '../frontend/dist')))
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
