@@ -9,7 +9,7 @@ const loginWith = async (page, username, password) => {
   await loginForm.getByLabel(/password/i).fill(password)
   await loginForm.getByRole('button', { name: /log in/i }).click()
 
-  const successNotification = page.getByText(/logged in/i)
+  const successNotification = page.getByText(/log out/i)
   const failureNotification = page.getByText(/wrong credentials/i)
 
   await expect(successNotification.or(failureNotification)).toBeVisible()

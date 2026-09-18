@@ -1,0 +1,23 @@
+{
+  "name": "bloglist",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "backend": "npm --prefix backend run start:test",
+    "frontend": "npm --prefix frontend run dev",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend:test": "npm --prefix backend test",
+    "frontend:test": "npm --prefix frontend test",
+    "test": "npm run backend:test && npm run frontend:test",
+    "backend:lint": "npm --prefix backend run lint",
+    "frontend:lint": "npm --prefix frontend run lint",
+    "lint": "npm run backend:lint && npm run frontend:lint",
+    "frontend:build": "npm --prefix frontend run build",
+    "build": "npm run frontend:build",
+    "start": "npm run build && npm run backend",
+    "start:test": "npm run build && npm run backend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

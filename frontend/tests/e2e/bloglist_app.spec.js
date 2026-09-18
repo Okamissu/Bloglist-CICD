@@ -15,7 +15,8 @@ test.describe('Blog app', () => {
 
   test.describe('Login site', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto('/login')
+      await page.goto('/')
+      await page.getByRole('link', { name: /login/i }).click()
     })
 
     test('Login form is shown', async ({ page }) => {
@@ -32,9 +33,11 @@ test.describe('Blog app', () => {
     })
 
     test('Login succeeds with correct credentials', async ({ page }) => {
-      await loginWith(page, 'mluukkai', 'salainen')
+      await page.getByLabel('Username').fill('mluukkai')
+      await page.getByLabel('Password').fill('salainen')
+      await page.getByRole('button', { name: 'Log in' }).click()
 
-      await expect(page.getByText(/Matti Luukkainen logged in/i)).toBeVisible()
+      await expect(page.getByRole('link', { name: /log out/i })).toBeVisible()
     })
     test('Login fails with invalid credentials', async ({ page }) => {
       await loginWith(page, 'mluukkai', 'wrongwrong')
@@ -106,7 +109,7 @@ test.describe('Blog app', () => {
           },
         })
 
-        await page.getByRole('button', { name: /log out/i }).click()
+        await page.getByRole('link', { name: /log out/i }).click()
 
         await loginWith(page, 'okamilo', 'pingi125')
 
@@ -124,6 +127,7 @@ test.describe('Blog app', () => {
           'authorTwo',
           'https://www.blogTwo.com',
         )
+
         await createBlog(
           page,
           'blogThree',
@@ -132,23 +136,33 @@ test.describe('Blog app', () => {
         )
 
         await page.getByRole('link', { name: 'The Playwright Blog' }).click()
-        await page.getByRole('button', { name: /like/i }).click()
-        await page.getByRole('button', { name: /like/i }).click()
+
+        const likeButton = page.getByRole('button', { name: /like/i })
+
+        await likeButton.click()
+        await expect(page.getByText(/Likes: 1/i)).toBeVisible()
+
+        await likeButton.click()
         await expect(page.getByText(/Likes: 2/i)).toBeVisible()
+
         await page.getByRole('link', { name: 'Blogs' }).click()
 
         await page.getByRole('link', { name: 'blogTwo' }).click()
+
         await page.getByRole('button', { name: /like/i }).click()
         await expect(page.getByText(/Likes: 1/i)).toBeVisible()
+
         await page.getByRole('link', { name: 'Blogs' }).click()
 
         await page.getByRole('link', { name: 'blogThree' }).click()
+
         await expect(page.getByText(/Likes: 0/i)).toBeVisible()
+
         await page.getByRole('link', { name: 'Blogs' }).click()
 
         const blogs = page.getByRole('listitem')
-        await expect(blogs).toHaveCount(3)
 
+        await expect(blogs).toHaveCount(3)
         await expect(blogs.nth(0)).toContainText(/The Playwright Blog/i)
         await expect(blogs.nth(1)).toContainText(/blogTwo/i)
         await expect(blogs.nth(2)).toContainText(/blogThree/i)

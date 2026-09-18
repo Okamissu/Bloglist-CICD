@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const path = require('path')
 const config = require('./utils/config')
 const logger = require('./utils/logger')
 const middleware = require('./utils/middleware')
@@ -20,7 +21,6 @@ app.use(express.json())
 app.use(middleware.requestLogger)
 
 app.use('/api/login', loginRouter)
-
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
 
@@ -28,6 +28,13 @@ if (process.env.NODE_ENV === 'test') {
   const testingRouter = require('./controllers/testing')
   app.use('/api/testing', testingRouter)
 }
+
+app.get('/health', (req, res) => {
+  res.status(200).send('OK')
+})
+
+// Serve frontend
+app.use(express.static(path.join(__dirname, '../frontend/dist')))
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
